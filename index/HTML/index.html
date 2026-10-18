@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BugForge — Gerenciamento de Bugs e Testes para Jogos</title>
+<link rel="stylesheet" href="/index/CSS/style.css">
+</head>
+<body>
+<nav><div class="wrap">
+  <strong>BugForge</strong>
+  <a href="#problema">Problema</a><a href="#solucao">Solução</a><a href="#como">Como funciona</a><a href="#tec">Tecnologias</a><a href="#equipe">Equipe</a>
+</div></nav>
+
+<header><div class="wrap">
+  <span class="tag">🎮 Desenvolvimento de jogos</span>
+  <h1><span>BugForge</span>: bugs e testes num só lugar</h1>
+  <p class="sub">Sistema de gerenciamento de bugs e testes para equipes de jogos, que acaba com os registros perdidos em mensagens dispersas.</p>
+  <a class="btn" href="#solucao">Conheça a solução</a><a class="btn ghost" href="#cta">Ver o código</a>
+</div></header>
+
+<section id="problema"><div class="wrap">
+  <h2>O problema</h2>
+  <div class="card problem">
+    <p>Durante o desenvolvimento de um jogo, os bugs encontrados são registrados em mensagens dispersas, em grupos de chat, e-mails e anotações soltas. Com isso, fica difícil saber quem está corrigindo o quê e se a correção foi realmente testada. Bugs voltam, testes se perdem e o time perde tempo reconstruindo o histórico.</p>
+  </div>
+</div></section>
+
+<section id="solucao"><div class="wrap">
+  <h2>A solução</h2>
+  <div class="grid">
+    <div class="card"><h3>📁 Cadastro de projetos</h3><p>Cada jogo é um projeto, com seus membros e bugs organizados.</p></div>
+    <div class="card"><h3>🐞 Registro de bugs</h3><p>Cadastre bugs com descrição, projeto e responsável, tudo centralizado.</p></div>
+    <div class="card"><h3>🔎 Listagem por status</h3><p>Filtre os bugs por <code>aberto</code>, <code>em andamento</code> ou <code>resolvido</code>.</p></div>
+    <div class="card"><h3>🔄 Atualização de status</h3><p>Acompanhe o ciclo de vida de cada correção.</p></div>
+    <div class="card"><h3>✅ Registro de testes</h3><p>Guarde cada teste com seu resultado (aprovado ou reprovado).</p></div>
+  </div>
+  <div class="card rule"><strong>Regra de negócio:</strong> um bug só pode ser marcado como <em>resolvido</em> após um teste aprovado.</div>
+
+  <div class="card demo">
+    <strong>Experimente a regra</strong>
+    <p class="demo-note">Simulação no navegador (não usa a API real).</p>
+    <div class="row">Bug #12 — “Personagem atravessa a parede”: <span id="status" class="pill aberto">aberto</span></div>
+    <div class="row">
+      <button class="btn" id="bAnd">Iniciar correção</button>
+      <button class="btn ghost no-margin" id="bTeste">Registrar teste aprovado</button>
+      <button class="btn btn-green" id="bRes">Marcar como resolvido</button>
+      <button class="btn ghost no-margin" id="bReset">Reiniciar</button>
+    </div>
+    <div id="msg">Tente resolver o bug sem teste aprovado.</div>
+  </div>
+</div></section>
+
+<section id="como"><div class="wrap">
+  <h2>Como funciona</h2>
+  <ol class="steps">
+    <li><strong>Cadastrar</strong> o projeto (o jogo) e seus membros.</li>
+    <li><strong>Registrar</strong> o bug encontrado, vinculado ao projeto.</li>
+    <li><strong>Consultar</strong> os bugs listando por status e atualizando o andamento.</li>
+    <li><strong>Testar</strong> a correção e registrar o resultado do teste.</li>
+    <li><strong>Resolver</strong> o bug, liberado apenas com um teste aprovado.</li>
+  </ol>
+</div></section>
+
+<section id="tec"><div class="wrap">
+  <h2>Tecnologias</h2>
+  <div class="grid">
+    <div class="card"><h3>FastAPI</h3><p>Cria as rotas da API de forma rápida e gera a documentação automaticamente.</p></div>
+    <div class="card"><h3>SQLAlchemy</h3><p>Mapeia as tabelas <code>projetos</code>, <code>membros</code>, <code>bugs</code> e <code>testes</code> para classes Python (ORM).</p></div>
+    <div class="card"><h3>SQLite</h3><p>Banco de dados leve em arquivo, que guarda todos os registros do sistema.</p></div>
+    <div class="card"><h3>Pydantic</h3><p>Valida os dados que entram e saem da API, garantindo formatos corretos.</p></div>
+  </div>
+</div></section>
+
+<section id="equipe"><div class="wrap team">
+  <h2>Equipe</h2>
+  <div class="grid" id="teamGrid"></div>
+</div></section>
+
+<section id="cta"><div class="wrap cta">
+  <div class="card">
+    <h2>Pronto para organizar seus bugs?</h2>
+    <p class="demo-note">Acesse o projeto e veja como tudo foi construído.</p>
+    <a class="btn" href="#" id="repoLink">Veja o código no repositório</a>
+  </div>
+</div></section>
+
+<footer>BugForge · Projeto acadêmico de Backend · Sistemas de Informação</footer>
+
+<script src="/index/JS/script.js"></script>
+</body>
+</html>
