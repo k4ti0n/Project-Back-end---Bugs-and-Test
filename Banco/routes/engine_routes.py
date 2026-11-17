@@ -9,12 +9,11 @@ engine_router = APIRouter(prefix="/engines", tags=["Engines"])
 
 @engine_router.post("/", response_model=EngineResponse, status_code=status.HTTP_201_CREATED)
 def create_engine(engine_data: EngineCreate, db: Session = Depends(get_db)):
-    new_engine = Engine(Name_Engine=engine_data.Name_Engine)
+    new_engine = Engine(Name_Engine=engine_data.Name_Engine, Function_Engine=engine_data.Function_Engine)
     db.add(new_engine)
     db.commit()
     db.refresh(new_engine)
     return new_engine
-
 
 @engine_router.get("/", response_model=list[EngineResponse])
 def list_engines(db: Session = Depends(get_db)):

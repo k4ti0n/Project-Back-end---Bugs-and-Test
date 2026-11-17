@@ -13,3 +13,12 @@ app.include_router(bug_router)
 @app.get("/")
 def root():
     return {"message": "API de Gerenciamento de Bugs em Jogos rodando com sucesso!"}
+
+
+    # uvicorn main:app --reload
+    # pip install alembic 
+    # alembic init alembic
+    # alembic revision --autogenerate -m "Initial migration"
+    # alembic revision --autogenerate -m "Initial migration"
+    # alembic upgrade head
+    # alembic current

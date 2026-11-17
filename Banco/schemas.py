@@ -6,12 +6,13 @@ from pydantic import BaseModel
 # --- Schemas para Engine ---
 class EngineCreate(BaseModel):
     Name_Engine: str
+    Function_Engine: str
 
 
 class EngineResponse(BaseModel):
     Engine_ID: int
     Name_Engine: str
-
+    Function_Engine: str
     class Config:
         from_attributes = True
 

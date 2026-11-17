@@ -7,10 +7,11 @@ class Engine(Base):
 
     Engine_ID = Column("Engine_ID", Integer, primary_key=True, autoincrement=True)
     Name_Engine = Column("Name_Engine", String, nullable=False)
+    Function_Engine = Column("Function_Engine", String, nullable=False)
 
-    def __init__(self, Name_Engine):
+    def __init__(self, Name_Engine, Function_Engine):
         self.Name_Engine = Name_Engine
-
+        self.Function_Engine = Function_Engine
 
 class ProjectingDocumentation(Base):
     __tablename__ = "projecting_documentation"
