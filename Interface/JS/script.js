@@ -1,12 +1,6 @@
 (function () {
   /* ====== Edite aqui ====== */
-  const REPO_URL = "#"; // link do repositório
-  const TEAM = [
-    { nome: "Jogador 1", funcao: "Desenvolvedor" },
-    { nome: "Jogador 2", funcao: "Testador (QA)" },
-    { nome: "Jogador 3", funcao: "Designer" },
-    { nome: "Jogador 4", funcao: "Gerente de projeto" }
-  ];
+  const REPO_URL = "#"; // link do repositório (a equipe agora é editada no index.html)
 
   /* ====== Texturas de pixel geradas no navegador ====== */
   function tile(rgb, spread, seed) {
@@ -118,13 +112,10 @@
     g.fillStyle = "#8a5a44"; g.fillRect(3, 6, 2, 1);
     return c;
   }
-  const grid = $("teamGrid");
-  TEAM.forEach((m, i) => {
-    const el = document.createElement("div"); el.className = "player";
-    el.appendChild(head(i + 1));
-    el.insertAdjacentHTML("beforeend", "<b></b><span></span>");
-    el.querySelector("b").textContent = m.nome; el.querySelector("span").textContent = m.funcao;
-    grid.appendChild(el);
+  // Os nomes ficam no index.html. Aqui só desenhamos a cabeça de cada .skin
+  document.querySelectorAll("#teamGrid .skin").forEach((el, i) => {
+    const seed = parseInt(el.dataset.skin, 10) || i + 1;
+    el.replaceWith(head(seed));
   });
 
   /* ====== Coordenada Y (cava conforme rola) e hotbar ativa ====== */
