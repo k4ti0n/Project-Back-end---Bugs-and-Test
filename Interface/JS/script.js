@@ -1,13 +1,17 @@
 (function () {
-  /* ====== Edite aqui ====== */
-  const REPO_URL = "#"; // link do repositório (a equipe agora é editada no index.html)
+  const REPO_URL = "#"; // link do repositório
+  const $ = id => document.getElementById(id);
+  document.documentElement.classList.add("js");
 
-  /* ====== Texturas de pixel geradas no navegador ====== */
+  /* Transição entre telas: cada seção "entra" quando aparece na tela */
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("in", e.isIntersecting)), { threshold: 0.2 });
+  document.querySelectorAll(".sec").forEach(s => io.observe(s));
+
+
+  /* Texturas de pixel geradas no navegador */
   function tile(rgb, spread, seed) {
-    const c = document.createElement("canvas");
-    c.width = c.height = 16;
-    const g = c.getContext("2d");
-    let s = seed;
+    const c = document.createElement("canvas"); c.width = c.height = 16;
+    const g = c.getContext("2d"); let s = seed;
     const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
     for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) {
       const d = (rnd() - 0.5) * spread;
@@ -16,116 +20,87 @@
     }
     return "url(" + c.toDataURL() + ")";
   }
-  const root = document.documentElement.style;
-  root.setProperty("--dirt", tile([123, 84, 51], 40, 7));
-  root.setProperty("--stone", tile([128, 128, 128], 36, 3));
-  root.setProperty("--deep", tile([62, 62, 74], 28, 11));
-  root.setProperty("--grass", tile([93, 161, 48], 44, 5));
+  const st = document.documentElement.style;
+  st.setProperty("--nether", tile([112, 40, 40], 56, 7));
+  st.setProperty("--obs", tile([26, 18, 44], 26, 3));
+  st.setProperty("--black", tile([62, 58, 68], 26, 11));
+  st.setProperty("--plank", tile([168, 121, 63], 30, 5));
+  $("repoLink").href = REPO_URL;
 
-  /* ====== Links do repositório ====== */
-  ["repoLink", "repoLink2"].forEach(id => { const a = document.getElementById(id); if (a) a.href = REPO_URL; });
-
-  /* ====== Frase na logo ====== */
-  const phrases = ["Bug esmagado!", "Agora com histórico!", "Teste antes de resolver!", "Sem print perdido!", "Cuidado com o creeper!", "Feito com FastAPI!"];
-  let pi = 0;
-  const splash = document.getElementById("splash");
-  splash.addEventListener("click", () => { pi = (pi + 1) % phrases.length; splash.textContent = phrases[pi]; });
-
-  /* ====== Inventário: tabelas do banco (models.py) ====== */
-  const TABLES = [
-    { icon: "⚙️", nome: "Engines", t: "engines", desc: "Os motores usados para criar os jogos.",
-      campos: [["Engine_ID", "número"], ["Name_Engine", "texto"]], rel: "Ligada aos jogos por association_project_and_engine." },
-    { icon: "🎮", nome: "Jogos", t: "projecting_documentation", desc: "Cada jogo em desenvolvimento e seu status.",
-      campos: [["Game_ID", "número"], ["Game_Name", "texto"], ["Game_Status", "texto"]], rel: "Cada bug pertence a um jogo." },
-    { icon: "🛠️", nome: "Funções", t: "functions", desc: "Os papéis da equipe, como testador ou programador.",
-      campos: [["Function_ID", "número"], ["Name_Function", "texto"]], rel: "Ligada aos profissionais por function_professional." },
-    { icon: "🧑", nome: "Profissionais", t: "professionals", desc: "Quem reporta, corrige e testa os bugs.",
-      campos: [["Professional_ID", "número"], ["Nome", "texto"], ["Active", "sim ou não"]], rel: "Pode ser quem reportou ou o responsável por um bug." },
-    { icon: "🐞", nome: "Bugs", t: "documentation_bug", desc: "O registro completo do bug: onde, por quê e como reproduzir.",
-      campos: [["Documentation_Bug_ID", "número"], ["Date_Reported", "data"], ["Place_game", "texto"], ["cause", "texto, opcional"], ["Step_Reproduction", "texto"], ["Game_ID", "jogo"], ["Reported_ID", "quem reportou"], ["Responsible_ID", "responsável"]], rel: "Cada mudança gera uma linha no histórico." },
-    { icon: "📜", nome: "Histórico", t: "bug_history", desc: "Cada mudança de status, com data e autor.",
-      campos: [["History_ID", "número"], ["Documentation_Bug_ID", "bug"], ["Change_Date", "data"], ["Status_Situation", "texto"], ["Professional_ID", "autor"]], rel: "Responde quem mudou o quê e quando." }
-  ];
-  const slots = document.getElementById("slots"), tip = document.getElementById("tip");
-  function showTable(i) {
-    const d = TABLES[i];
-    [...slots.children].forEach((b, k) => b.setAttribute("aria-selected", k === i));
-    tip.innerHTML = "<h3>" + d.nome + "</h3><p class='tn'>tabela " + d.t + "</p><p>" + d.desc + "</p><br><ul>" +
-      d.campos.map(c => "<li>" + c[0] + "<small>" + c[1] + "</small></li>").join("") + "</ul><p class='rel'>" + d.rel + "</p>";
+  /* Itens do Minecraft redesenhados em pixel art (16x16). Cada letra é uma cor da paleta. */
+  const PAL = { k: "#17141c", w: "#fff", g: "#9a9a9a", G: "#555", K: "#2a2a2a", b: "#9a6a35", B: "#5a3a1a", d: "#2fcfbf", D: "#16897f", l: "#b8fff6", r: "#d9302a", R: "#7d1511", y: "#ffd33b", e: "#5da130", E: "#3f7a22", n: "#7b5433", N: "#5a3b20", c: "#f2e6c0", C: "#c8b88a", S: "#7ab8ff" };
+  const ITEMS = {
+    pickaxe: [1, ["...kkkkkk.......", "..kdllllddk.....", ".kdlDDDDDddk....", ".kdDkkkkkDDdk...", ".kkk...kbkDDk...", ".......kbk.kDk..", "......kbk..kDk..", ".....kbk....kk..", "....kbk.........", "...kbk..........", "..kbk...........", ".kBk............", ".kk............."]],
+    sword: [0, ["..............kk", ".............kdk", "............kdlk", "...........kdlk.", "..........kdlk..", ".........kdlk...", "........kdlk....", ".k.....kdlk.....", ".kk...kdlk......", "..kk.kdlk.......", "...kkdlk........", "...kbkk.........", "..kbk...........", ".kBk............", ".kk............."]],
+    spidereye: [3, ["......kkkk......", "....kkRrrRkk....", "...kRrrrrrrRk...", "..kRrrrrrrrrRk..", "..kRrrkkkkrrRk..", "..kRrrkkkkrrRk..", "..kRrrrrrrrrRk..", "...kRrrrrrrRk...", "....kkRRRRkk....", "......kkkk......"]],
+    book: [2, ["..kkkkkkkkkkkk..", "..kBbbbbbbbbbk..", "..kBbbbyyybbbk..", "..kBbbbbybbbbk..", "..kBbbbbybbbbk..", "..kBbbbbybbbbk..", "..kBbbbbbbbbbk..", "..kBbbbbbbbbbk..", "..kcccccccccck..", "..kCCCCCCCCCCk..", "..kkkkkkkkkkkk.."]],
+    redstone: [4, ["......rrrr......", "....rrRrrrrr....", "...rrrrrRrrrr...", "..rrRrrrrrrrrr..", "..rrrrrrrRrrrr..", "...rrrRrrrrrr...", "....rrrrrRrr....", ".....rrrrrr.....", "......rrrr......"]],
+    compass: [3, ["....kkkkkkkk....", "...kggggggggk...", "..kggggrrggggk..", "..kggggrrggggk..", "..kggggrrggggk..", "..kggggGGggggk..", "..kggggGGggggk..", "..kggggGGggggk..", "...kggggggggk...", "....kkkkkkkk...."]],
+    clock: [3, ["....kkkkkkkk....", "...kyyyyyyyyk...", "..kyccccccccyk..", "..kycccKccccyk..", "..kycccKccccyk..", "..kycccKKKKcyk..", "..kyccccccccyk..", "..kyccccccccyk..", "...kyyyyyyyyk...", "....kkkkkkkk...."]],
+    grass: [2, ["kkkkkkkkkkkkkkkk", "keeeeEeeeeeEeeek", "keEeeeeeeEeeeeEk", "keeeEeeeeeeEeeek", "kenEeEenEeeEnEek", "knnNnnnnNnnnnNnk", "knNnnnnNnnnNnnnk", "knnnnNnnnnnnNnnk", "kNnnnnnNnnNnnnnk", "knnNnnnnnnnnnNnk", "knnnnNnnNnnnnnnk", "kkkkkkkkkkkkkkkk"]],
+    tnt: [1, ["kkkkkkkkkkkkkkkk", "krrrrrrrrrrrrrrk", "kRrrrRrrrrRrrrRk", "krrrrrrrrrrrrrrk", "kwwwwwwwwwwwwwwk", "kwkkkwkwkwkwkkwk", "kwwkwwkwwwkwkwwk", "kwwkwwkwwwkwkwwk", "kwwwwwwwwwwwwwwk", "krrrrrrrrrrrrrrk", "kRrrrRrrrrRrrrRk", "krrrrrrrrrrrrrrk", "kkkkkkkkkkkkkkkk"]],
+    nametag: [3, ["......kkkk......", ".....k....k.....", "....k......k....", "....kk....kk....", "..kkkkkkkkkkkk..", "..kcccccccccck..", "..kcCCcCCcCCck..", "..kcccccccccck..", "..kkkkkkkkkkkk.."]],
+    painting: [2, ["kkkkkkkkkkkkkkkk", "kbbbbbbbbbbbbbbk", "kbSSSSSSSSSSSSbk", "kbSSSSSSSSSyySbk", "kbSSSSSSSSSyySbk", "kbSSSSeeSSSSSSbk", "kbSSSeeeeSSSSSbk", "kbeeeeeeeeEeeebk", "kbEeeeeeEeeeEebk", "kbeeEeeeeeeeEebk", "kbbbbbbbbbbbbbbk", "kkkkkkkkkkkkkkkk"]]
+  };
+  const cache = {};
+  function sprite(n) {
+    if (cache[n] || !ITEMS[n]) return cache[n];
+    const c = document.createElement("canvas"); c.width = c.height = 16;
+    const x = c.getContext("2d");
+    ITEMS[n][1].forEach((row, i) => [...row].forEach((ch, j) => { if (PAL[ch]) { x.fillStyle = PAL[ch]; x.fillRect(j, ITEMS[n][0] + i, 1, 1); } }));
+    return (cache[n] = "url(" + c.toDataURL() + ")");
   }
-  TABLES.forEach((d, i) => {
-    const b = document.createElement("button");
-    b.className = "slot"; b.type = "button"; b.textContent = d.icon;
-    b.setAttribute("role", "tab"); b.setAttribute("aria-label", d.nome); b.title = d.nome;
-    b.addEventListener("click", () => showTable(i));
-    slots.appendChild(b);
-  });
-  showTable(4);
+  document.querySelectorAll("[data-item]").forEach(el => { el.style.backgroundImage = sprite(el.dataset.item); });
 
-  /* ====== Demo da regra de negócio ====== */
-  const $ = id => document.getElementById(id);
-  const st = { status: "aberto", test: "nenhum" };
-  const who = ["Bruno", "Maya"];
-  function say(text, cls) { const p = document.createElement("p"); if (cls) p.className = cls; p.textContent = text; $("msg").prepend(p); while ($("msg").children.length > 4) $("msg").lastChild.remove(); }
-  function logHist(txt, by) {
-    const h = $("hist"); if (h.firstChild && !h.firstChild.dataset.r) h.innerHTML = "";
-    const li = document.createElement("li"); li.dataset.r = 1;
-    li.textContent = new Date().toLocaleDateString("pt-BR") + " · " + txt + " · " + by;
-    h.prepend(li);
-  }
-  function render() {
-    const hp = st.status === "resolvido" ? 0 : st.test === "aprovado" ? 30 : st.status === "em andamento" ? 60 : 100;
-    $("bossFill").style.width = hp + "%"; $("boss").setAttribute("aria-valuenow", hp);
-    const s = $("status"); s.textContent = st.status; s.className = "pill " + (st.status === "aberto" ? "aberto" : st.status === "em andamento" ? "andamento" : "resolvido");
-    $("testState").textContent = st.test;
-    $("bAnd").disabled = st.status !== "aberto";
-    $("bOk").disabled = $("bFail").disabled = st.status !== "em andamento";
-  }
-  $("bAnd").onclick = () => { st.status = "em andamento"; logHist("em andamento", who[0]); say("Correção iniciada por " + who[0] + ".", "warn"); render(); };
-  $("bOk").onclick = () => { st.test = "aprovado"; logHist("teste aprovado", who[1]); say("Teste aprovado. Agora o bug pode ser resolvido.", "ok"); render(); };
-  $("bFail").onclick = () => { st.test = "reprovado"; logHist("teste reprovado", who[1]); say("Teste reprovado. O bug continua em andamento.", "sys"); render(); };
-  $("bRes").onclick = () => {
-    if (st.test !== "aprovado") {
-      say("Não dá para resolver: falta um teste aprovado.", "sys");
-      const d = document.querySelector(".demo"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
-      return;
+
+  /* Portal do Nether */
+  const cv = $("portal"), g = cv.getContext("2d"), W = 32, H = 48;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let seed = 9; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const img = g.createImageData(W, H), px = img.data;
+  function frame(t) {
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const v = Math.sin(x * .5 + t * .9) + Math.sin(y * .33 - t * .6) + Math.sin((x + y) * .28 + t * .4);
+      const f = .5 + (v + 3) / 6 * .7, i = (y * W + x) * 4, spark = rnd() < .025;
+      px[i] = spark ? 233 : 110 * f; px[i + 1] = spark ? 210 : 40 * f; px[i + 2] = spark ? 255 : 210 * f; px[i + 3] = 255;
     }
-    st.status = "resolvido"; logHist("resolvido", who[0]); say("Bug derrotado! Registrado no histórico.", "ok"); render();
-    $("bRes").disabled = true;
-  };
-  $("bReset").onclick = () => {
-    st.status = "aberto"; st.test = "nenhum"; $("bRes").disabled = false;
-    $("hist").innerHTML = "<li>Nenhuma mudança registrada ainda.</li>"; $("msg").innerHTML = ""; say("Simulação reiniciada.", "warn"); render();
-  };
-  render();
-
-  /* ====== Equipe ====== */
-  function head(seed) {
-    const c = document.createElement("canvas"); c.width = c.height = 8;
-    const g = c.getContext("2d");
-    const skins = ["#f1c9a5", "#c68e63", "#8d5a3b", "#e8b48a"], hairs = ["#2b1b10", "#6b3e1d", "#d6a93a", "#1f1f2e"];
-    const skin = skins[seed % 4], hair = hairs[(seed * 3 + 1) % 4];
-    g.fillStyle = skin; g.fillRect(0, 0, 8, 8);
-    g.fillStyle = hair; g.fillRect(0, 0, 8, 2); g.fillRect(0, 2, 1, 1); g.fillRect(7, 2, 1, 1);
-    g.fillStyle = "#fff"; g.fillRect(1, 4, 2, 1); g.fillRect(5, 4, 2, 1);
-    g.fillStyle = "#3a5fcd"; g.fillRect(2, 4, 1, 1); g.fillRect(5, 4, 1, 1);
-    g.fillStyle = "#8a5a44"; g.fillRect(3, 6, 2, 1);
-    return c;
+    g.putImageData(img, 0, 0);
   }
-  // Os nomes ficam no index.html. Aqui só desenhamos a cabeça de cada .skin
-  document.querySelectorAll("#teamGrid .skin").forEach((el, i) => {
-    const seed = parseInt(el.dataset.skin, 10) || i + 1;
-    el.replaceWith(head(seed));
-  });
+  frame(0);
+  let heroOn = true;
+  new IntersectionObserver(e => { heroOn = e[0].isIntersecting; }).observe(document.querySelector(".hero"));
+  if (!still) { let t = 0; setInterval(() => { if (heroOn && !document.hidden) frame(t += .35); }, 100); }
 
-  /* ====== Coordenada Y (cava conforme rola) e hotbar ativa ====== */
-  const y = $("yLevel"), links = [...document.querySelectorAll(".hotbar a")];
-  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  /* Circuito de redstone: a lâmpada só acende com teste aprovado */
+  let test = false, lit = false, timer;
+  const say = (txt, cls) => { const p = document.createElement("p"); if (cls) p.className = cls; p.textContent = txt; $("msg").prepend(p); while ($("msg").children.length > 3) $("msg").lastChild.remove(); };
+  $("lever").onclick = () => {
+    test = !test; $("lever").setAttribute("aria-pressed", test); $("w1").classList.toggle("on", test);
+    say(test ? "Teste aprovado ligado. Agora o bug pode ser resolvido." : "Teste desligado.", test ? "good" : "");
+  };
+  $("press").onclick = () => {
+    $("w2").classList.add("on"); clearTimeout(timer); timer = setTimeout(() => $("w2").classList.remove("on"), 700);
+    if (!test) {
+      say("Sem teste aprovado, a lâmpada não acende.", "bad");
+      const c = $("circuit"); c.classList.remove("shake"); void c.offsetWidth; c.classList.add("shake"); return;
+    }
+    lit = true; $("w3").classList.add("on"); $("lamp").classList.add("on"); say("Bug resolvido! A lâmpada acendeu.", "good");
+  };
+  $("reset").onclick = () => {
+    test = lit = false; $("lever").setAttribute("aria-pressed", false);
+    ["w1", "w2", "w3", "lamp"].forEach(i => $(i).classList.remove("on")); $("msg").innerHTML = ""; say("Circuito reiniciado.");
+  };
+
+  /* Barra de XP: enche ao rolar a página */
   function onScroll() {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    y.textContent = Math.round(64 - (max > 0 ? scrollY / max : 0) * 124);
+    const max = document.documentElement.scrollHeight - innerHeight, p = max > 0 ? Math.min(1, scrollY / max) : 0;
+    $("xpf").style.width = p * 100 + "%"; $("lvl").textContent = Math.round(p * 30);
+    $("yLevel").textContent = Math.round(64 - p * 124); // cava conforme rola
     let cur = -1; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.4) cur = i; });
     links.forEach((a, i) => a.classList.toggle("on", i === cur));
   }
-  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  const links = [...document.querySelectorAll(".hotbar a")], secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  let tick = false;
+  addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(() => { tick = false; onScroll(); }); } }, { passive: true });
+  onScroll();
 })();

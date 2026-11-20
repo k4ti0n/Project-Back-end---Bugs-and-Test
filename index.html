@@ -3,148 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BugForge — Bugs e testes de jogos, num só lugar</title>
+<title>BugForge — Bugs e testes de jogos, sem nada perdido</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="Interface/CSS/style.css">
 </head>
 <body>
 <div class="debug" id="debug" aria-hidden="true">BugForge 1.0.0<br>Y: <span id="yLevel">64</span></div>
- 
 <nav class="hotbar" aria-label="Seções da página">
-  <a href="#problema" data-label="O problema">💬</a>
-  <a href="#mundo" data-label="Banco de dados">🎒</a>
-  <a href="#ciclo" data-label="Ciclo do bug">⚔️</a>
-  <a href="#tec" data-label="Tecnologias">⛏️</a>
-  <a href="#equipe" data-label="Equipe">👥</a>
+  <a href="#problema" data-label="O problema"><i class="item" data-item="spidereye" style="--s:36px"></i></a>
+  <a href="#receita" data-label="Banco de dados"><i class="item" data-item="book" style="--s:36px"></i></a>
+  <a href="#circuito" data-label="Regra de negócio"><i class="item" data-item="redstone" style="--s:36px"></i></a>
+  <a href="#tec" data-label="Tecnologias"><i class="item" data-item="pickaxe" style="--s:36px"></i></a>
+  <a href="#equipe" data-label="Equipe"><i class="item" data-item="nametag" style="--s:36px"></i></a>
 </nav>
- 
-<header class="title" id="topo">
-  <div class="wrap">
-    <div class="logo">
-      <h1>BugForge</h1>
-      <button class="splash" id="splash" type="button" aria-label="Trocar frase">Bug esmagado!</button>
+<header class="hero">
+  <nav class="top" aria-label="Seções">
+    <strong>BugForge</strong>
+    <span><a href="#problema">Problema</a><a href="#receita">Banco</a><a href="#circuito">Regra</a><a href="#tec">Tecnologias</a><a href="#equipe">Equipe</a></span>
+  </nav>
+  <div class="wrap hero-in">
+    <div>
+      <p class="kicker">Gerenciamento de bugs e testes para jogos</p>
+      <h1><span>Bug</span><em>Forge</em></h1>
+      <p class="sub">Cada bug com dono, status e histórico. Nada se perde no chat e nada volta sem teste.</p>
+      <p class="cta"><a class="btn" href="#circuito">Acender a lâmpada</a> <a class="btn alt" href="#receita">Ver o banco</a></p>
     </div>
-    <p class="edition">Gerenciamento de bugs e testes para jogos</p>
-    <div class="menu">
-      <a class="btn" href="#ciclo">Testar a regra do bug</a>
-      <a class="btn" href="#mundo">Explorar o banco de dados</a>
-      <a class="btn" href="https://github.com/k4ti0n/Project-Back-end---Bugs-and-Test">Ver o código no repositório</a>
-    </div>
+    <div class="portal"><canvas id="portal" width="32" height="48" aria-label="Portal do Nether animado" role="img"></canvas></div>
   </div>
-  <svg class="creeper" viewBox="0 0 8 16" shape-rendering="crispEdges" aria-hidden="true">
-    <rect width="8" height="8" fill="#4caf3a"/>
-    <rect x="1" y="2" width="2" height="2" fill="#10300d"/><rect x="5" y="2" width="2" height="2" fill="#10300d"/>
-    <rect x="3" y="4" width="2" height="1" fill="#10300d"/><rect x="2" y="5" width="4" height="2" fill="#10300d"/>
-    <rect x="2" y="7" width="1" height="1" fill="#10300d"/><rect x="5" y="7" width="1" height="1" fill="#10300d"/>
-    <rect x="2" y="8" width="4" height="5" fill="#3f9a2f"/><rect x="2" y="13" width="1.8" height="3" fill="#2f7a24"/><rect x="4.2" y="13" width="1.8" height="3" fill="#2f7a24"/>
-  </svg>
-  <div class="ground" aria-hidden="true"></div>
 </header>
- 
-<section class="sec l-dirt" id="problema"><div class="wrap">
-  <h2>Onde foi parar aquele bug?</h2>
-  <p class="lead">Durante o desenvolvimento, os bugs ficam espalhados em grupos de chat, e-mails e anotações soltas. Ninguém sabe quem está corrigindo o quê, nem se a correção foi testada.</p>
-  <div class="chat" role="log" aria-label="Exemplo de conversa com bugs perdidos">
-    <p>&lt;Léo&gt; achei um bug na fase 3, o personagem atravessa a parede</p>
-    <p>&lt;Maya&gt; mandei o print ontem, procura no grupo</p>
-    <p>&lt;Davi&gt; quem está corrigindo isso?</p>
-    <p>&lt;Ana&gt; acho que o Bruno... ou foi o Léo?</p>
-    <p>&lt;Léo&gt; testei, tá ok (não lembro em qual versão)</p>
-    <p class="sys">[Sistema] O bug voltou. Ninguém sabe quem corrigiu nem se foi testado.</p>
-  </div>
-</div></section>
- 
-<section class="sec l-stone" id="mundo"><div class="wrap">
-  <h2>Tudo no mesmo inventário</h2>
-  <p class="lead">Seis tabelas guardam o que a equipe precisa. Clique em um bloco para ver os campos.</p>
-  <div class="inv">
-    <div class="gui">
-      <p class="gui-title">Banco de dados</p>
-      <div class="slots" id="slots" role="tablist" aria-label="Tabelas do banco"></div>
-    </div>
-    <aside class="tip" id="tip" aria-live="polite"></aside>
-  </div>
-</div></section>
- 
-<section class="sec l-stone2" id="ciclo"><div class="wrap">
-  <h2>Um bug só cai com teste aprovado</h2>
-  <p class="lead">Cada mudança de status vira uma linha no histórico do bug. Tente resolver o bug sem passar pelo teste.</p>
-  <div class="demo gui">
-    <p class="gui-title" id="bugName">Bug #12 — Personagem atravessa a parede</p>
-    <div class="boss" role="progressbar" aria-label="Vida do bug" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" id="boss"><i id="bossFill"></i></div>
-    <p class="meta">Status: <b id="status" class="pill aberto">aberto</b> Teste: <b id="testState">nenhum</b></p>
-    <div class="actions">
-      <button class="btn sm" id="bAnd" type="button">Iniciar correção</button>
-      <button class="btn sm" id="bOk" type="button">Teste aprovado</button>
-      <button class="btn sm" id="bFail" type="button">Teste reprovado</button>
-      <button class="btn sm go" id="bRes" type="button">Marcar como resolvido</button>
-      <button class="btn sm" id="bReset" type="button">Reiniciar</button>
-    </div>
-    <div class="chat mini" id="msg" aria-live="polite"><p class="sys">Simulação no navegador. Não usa a API real.</p></div>
-    <p class="gui-title small">Histórico do bug</p>
-    <ul class="hist" id="hist"><li>Nenhuma mudança registrada ainda.</li></ul>
-  </div>
-</div></section>
- 
-<section class="sec l-deep" id="tec"><div class="wrap">
-  <h2>Minerado com estas ferramentas</h2>
-  <div class="ores">
-    <div class="ore" style="--c:#2b2b2b"><b>FastAPI</b><span>Cria as rotas e gera a documentação em <code>/docs</code>.</span></div>
-    <div class="ore" style="--c:#d8af93"><b>SQLAlchemy</b><span>Transforma as tabelas em classes Python.</span></div>
-    <div class="ore" style="--c:#fcee4b"><b>SQLite</b><span>Guarda tudo em um arquivo leve.</span></div>
-    <div class="ore" style="--c:#4de0d1"><b>Pydantic</b><span>Confere os dados que entram e saem.</span></div>
-    <div class="ore" style="--c:#d9402f"><b>Alembic</b><span>Controla as mudanças do banco.</span></div>
-  </div>
-  <p class="gui-title small light">Comandos da API</p>
-  <div class="chat cmds">
-    <p><b>POST</b> /engines/ <em>cadastra uma engine</em></p>
-    <p><b>GET</b> /engines/ <em>lista as engines</em></p>
-    <p><b>POST</b> /professionals/ <em>cadastra um profissional</em></p>
-    <p><b>GET</b> /professionals/ <em>lista os profissionais</em></p>
-    <p><b>POST</b> /bugs/ <em>registra um bug</em></p>
-    <p><b>GET</b> /bugs/ <em>lista os bugs</em></p>
+
+<section class="sec s-nether" id="problema"><div class="wrap">
+  <h2>Cadê aquele bug?</h2>
+  <p class="lead">Os bugs ficam espalhados em chats, e-mails e anotações soltas. Ninguém sabe quem está corrigindo nem se a correção foi testada.</p>
+  <div class="signs">
+    <p class="sign" style="--r:-4deg">Achei bug na fase 3! O personagem atravessa a parede.</p>
+    <p class="sign" style="--r:3deg">Mandei o print ontem, procura no grupo.</p>
+    <p class="sign" style="--r:-2deg">Quem está corrigindo isso??</p>
+    <p class="sign" style="--r:5deg">Testei, tá ok. (Em qual versão?)</p>
+    <p class="sign red" style="--r:-3deg">O bug voltou.</p>
   </div>
 </div></section>
 
-<section class="sec l-deep" id="equipe"><div class="wrap">
-  <h2>Equipe</h2>
-  <div class="team" id="teamGrid">
-
-    <div class="player">
-      <div class="skin" data-skin="1"></div>
-      <b>Gabriel Borges</b>
-      <span>Desenvolvedor</span>
+<section class="sec s-obs" id="receita"><div class="wrap">
+  <h2>A receita de um bug</h2>
+  <p class="lead">Na mesa de criação do BugForge, sete ingredientes viram um registro completo na tabela <code>documentation_bug</code>.</p>
+  <div class="craft gui">
+    <div class="grid3">
+      <div class="cs"><i class="item" data-item="clock" role="img" aria-label="Relógio"></i>Date_Reported</div><div class="cs"><i class="item" data-item="compass" role="img" aria-label="Bússola"></i>Place_game</div><div class="cs"><i class="item" data-item="tnt" role="img" aria-label="TNT"></i>cause</div>
+      <div class="cs"><i class="item" data-item="book" role="img" aria-label="Livro"></i>Step_Reproduction</div><div class="cs"></div><div class="cs"><i class="item" data-item="grass" role="img" aria-label="Bloco de grama"></i>Game_ID</div>
+      <div class="cs"><i class="item" data-item="nametag" role="img" aria-label="Etiqueta de nome"></i>Reported_ID</div><div class="cs"></div><div class="cs"><i class="item" data-item="pickaxe" role="img" aria-label="Picareta de diamante"></i>Responsible_ID</div>
     </div>
+    <span class="arrow" aria-hidden="true">➜</span>
+    <div class="cs out"><i class="item" data-item="spidereye" style="--s:64px" role="img" aria-label="Olho de aranha"></i>Bug registrado</div>
+  </div>
+  <ul class="chips">
+    <li><b>engines</b> os motores dos jogos</li>
+    <li><b>projecting_documentation</b> os jogos e seu status</li>
+    <li><b>functions</b> os papéis da equipe</li>
+    <li><b>professionals</b> quem reporta e corrige</li>
+    <li><b>documentation_bug</b> o registro de cada bug</li>
+    <li><b>bug_history</b> cada mudança, com data e autor</li>
+  </ul>
+</div></section>
 
-    <div class="player">
-      <div class="skin" data-skin="2"></div>
-      <b>Eduardo</b>
-      <span>Testador (QA)</span>
+<section class="sec s-black" id="circuito"><div class="wrap">
+  <h2>Sem teste, sem luz</h2>
+  <p class="lead">A regra de negócio vira um circuito de redstone: a lâmpada “resolvido” só acende se o teste aprovado estiver ligado. Ligue a alavanca e depois tente resolver.</p>
+  <div class="circuit" id="circuit">
+    <div class="inputs">
+      <div class="in"><div class="ctl"><button class="lever" id="lever" type="button" aria-pressed="false" aria-label="Teste aprovado"></button><span>Teste aprovado</span></div><div class="wire" id="w1"></div></div>
+      <div class="in"><div class="ctl"><button class="btn sm" id="press" type="button">Marcar como resolvido</button></div><div class="wire" id="w2"></div></div>
     </div>
+    <div class="and">AND</div>
+    <div class="wire short" id="w3"></div>
+    <div class="out-node"><div class="lamp" id="lamp"></div><span>Resolvido</span></div>
+  </div>
+  <div class="log" id="msg" aria-live="polite"><p>Simulação no navegador. Não usa a API real.</p></div>
+  <button class="btn alt sm" id="reset" type="button">Reiniciar circuito</button>
+</div></section>
 
-    <div class="player">
-      <div class="skin" data-skin="3"></div>
-      <b>João Lucas</b>
-      <span>Designer</span>
-    </div>
-
-    <div class="player">
-      <div class="skin" data-skin="4"></div>
-      <b>Eric Francisco</b>
-      <span>Gerente de projeto</span>
-    </div>
-
+<section class="sec s-nether" id="tec"><div class="wrap">
+  <h2>Ferramentas da forja</h2>
+  <ul class="tools">
+    <li style="--c:#2fc4a8"><b>FastAPI</b>Rotas rápidas e documentação em <code>/docs</code>.</li>
+    <li style="--c:#d8af93"><b>SQLAlchemy</b>Tabelas como classes Python.</li>
+    <li style="--c:#fcee4b"><b>SQLite</b>Banco leve, em um arquivo.</li>
+    <li style="--c:#b06bff"><b>Pydantic</b>Valida o que entra e sai.</li>
+    <li style="--c:#e0312b"><b>Alembic</b>Controla as mudanças do banco.</li>
+  </ul>
+  <div class="cmd" role="img" aria-label="Rotas da API">
+    <p class="cmd-t">Bloco de comando · API</p>
+    <p>&gt; POST /engines/ <i>cadastra engine</i></p><p>&gt; GET &nbsp;/engines/ <i>lista engines</i></p>
+    <p>&gt; POST /professionals/ <i>cadastra profissional</i></p><p>&gt; GET &nbsp;/professionals/ <i>lista profissionais</i></p>
+    <p>&gt; POST /bugs/ <i>registra bug</i></p><p>&gt; GET &nbsp;/bugs/ <i>lista bugs</i></p>
   </div>
 </div></section>
- 
+
+<section class="sec s-obs" id="equipe"><div class="wrap">
+  <h2>Galeria da equipe</h2>
+  <div class="team">
+    <figure class="player">
+      <div class="frame"><i class="item" data-item="pickaxe" style="--s:96px" role="img" aria-label="Picareta de diamante"></i></div>
+      <figcaption><b>Gabriel </b><span>Desenvolvedor</span></figcaption>
+    </figure>
+    <figure class="player">
+      <div class="frame"><i class="item" data-item="sword" style="--s:96px" role="img" aria-label="Espada de diamante"></i></div>
+      <figcaption><b>Eduardo</b><span>Testador (QA)</span></figcaption>
+    </figure>
+    <figure class="player">
+      <div class="frame"><i class="item" data-item="painting" style="--s:96px" role="img" aria-label="Pintura"></i></div>
+      <figcaption><b>João Lucas</b><span>Designer</span></figcaption>
+    </figure>
+    <figure class="player">
+      <div class="frame"><i class="item" data-item="compass" style="--s:96px" role="img" aria-label="Bússola"></i></div>
+      <figcaption><b>Eric Francisco</b><span>Gerente de projeto</span></figcaption>
+    </figure>
+  </div>
+</div></section>
+
 <footer>
-  <p>BugForge — projeto acadêmico de Backend, Sistemas de Informação.</p>
-  <p><a href="https://github.com/k4ti0n/Project-Back-end---Bugs-and-Test">Veja o código no repositório</a></p>
+  <p>BugForge · projeto acadêmico de Backend · Sistemas de Informação</p>
+  <p><a href="#" id="repoLink">Veja o código no repositório</a></p>
 </footer>
- 
+
+<div class="xp" aria-hidden="true"><b id="lvl">0</b><div><i id="xpf"></i></div></div>
 <script src="Interface/JS/script.js"></script>
 </body>
 </html>
-
