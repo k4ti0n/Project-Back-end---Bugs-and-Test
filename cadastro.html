@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cadastre engines, jogos, profissionais e bugs no BugForge.">
+  <title>BugForge — Injetar dados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/Interface/CSS/data-pages.css">
+</head>
+<body class="injection-page">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/">BugForge</a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a href="/">Apresentação</a>
+        <a href="/cadastro" aria-current="page">Injetar dados</a>
+        <a href="/visualizador">Visualizar banco</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-intro">
+        <p class="eyebrow">Oficina de dados</p>
+        <h1>Injetar dados</h1>
+        <p>Cadastre as informações do projeto. Jogos, engines e profissionais cadastrados ficam disponíveis nos formulários de bugs.</p>
+        <a class="text-link" href="/visualizador">Consultar registros salvos →</a>
+      </section>
+
+      <p class="status-message" id="pageStatus" role="status" aria-live="polite">Carregando dados da API...</p>
+
+      <section class="form-grid" aria-label="Formulários de cadastro">
+        <article class="panel-card">
+          <h2>Engine</h2>
+          <form id="engineForm">
+            <label>Nome da engine
+              <input name="Name_Engine" required maxlength="120" placeholder="Ex.: Godot">
+            </label>
+            <label>Função / observação
+              <textarea name="Function_Engine" required rows="3" placeholder="Versão ou uso no projeto"></textarea>
+            </label>
+            <button class="action-button" type="submit">Salvar engine</button>
+          </form>
+        </article>
+
+        <article class="panel-card">
+          <h2>Profissional</h2>
+          <form id="professionalForm">
+            <label>Nome
+              <input name="Nome" required maxlength="120" placeholder="Nome da pessoa">
+            </label>
+            <button class="action-button" type="submit">Salvar profissional</button>
+          </form>
+        </article>
+
+        <article class="panel-card">
+          <h2>Jogo / projeto</h2>
+          <form id="gameForm">
+            <label>Nome do jogo
+              <input name="Game_Name" required maxlength="160" placeholder="Nome do projeto">
+            </label>
+            <label>Status
+              <select name="Game_Status" required>
+                <option value="Em desenvolvimento">Em desenvolvimento</option>
+                <option value="Em teste">Em teste</option>
+                <option value="Concluído">Concluído</option>
+              </select>
+            </label>
+            <label>Engines (opcional)
+              <select name="Engine_IDs" id="gameEngine" multiple size="3" aria-describedby="engineHelp"></select>
+            </label>
+            <small id="engineHelp">Selecione zero ou mais engines. Use Ctrl ou ⌘ para múltiplas.</small>
+            <button class="action-button" type="submit">Salvar jogo</button>
+          </form>
+        </article>
+
+        <article class="panel-card panel-wide">
+          <h2>Reportar bug</h2>
+          <form id="bugForm">
+            <label>Jogo
+              <select name="Game_ID" id="bugGame" required>
+                <option value="">Cadastre um jogo primeiro</option>
+              </select>
+            </label>
+            <div class="form-row">
+              <label>Reportado por
+                <select name="Reported_ID" id="bugReporter" required>
+                  <option value="">Cadastre um profissional</option>
+                </select>
+              </label>
+              <label>Responsável
+                <select name="Responsible_ID" id="bugResponsible" required>
+                  <option value="">Cadastre um profissional</option>
+                </select>
+              </label>
+            </div>
+            <div class="form-row">
+              <label>Data do reporte
+                <input name="Date_Reported" type="date" id="bugDate" required>
+              </label>
+              <label>Local no jogo
+                <input name="Place_game" required maxlength="160" placeholder="Fase, tela ou coordenada">
+              </label>
+            </div>
+            <label>Causa (se conhecida)
+              <textarea name="cause" rows="2" placeholder="Opcional"></textarea>
+            </label>
+            <label>Passos para reproduzir
+              <textarea name="Step_Reproduction" required rows="4" placeholder="1. Abra...&#10;2. Faça..."></textarea>
+            </label>
+            <button class="action-button" type="submit">Registrar bug</button>
+          </form>
+        </article>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      Os formulários enviam os dados à API do BugForge. <a href="/visualizador">Abra o visualizador</a> para consultar os registros.
+    </footer>
+  </div>
+  <script src="/Interface/JS/cadastro.js"></script>
+</body>
+</html>

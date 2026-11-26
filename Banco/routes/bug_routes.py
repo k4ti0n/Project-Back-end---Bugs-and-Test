@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from Banco.dependencies import get_db
-from Banco.models import DocumentationBug
+from Banco.models import DocumentationBug, Professional, ProjectingDocumentation
 from Banco.schemas import BugCreate, BugResponse
 
 bug_router = APIRouter(prefix="/bugs", tags=["Bugs"])
@@ -9,6 +9,13 @@ bug_router = APIRouter(prefix="/bugs", tags=["Bugs"])
 
 @bug_router.post("/", response_model=BugResponse, status_code=status.HTTP_201_CREATED)
 def create_bug(bug_data: BugCreate, db: Session = Depends(get_db)):
+    if db.get(ProjectingDocumentation, bug_data.Game_ID) is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Jogo não encontrado.")
+    if db.get(Professional, bug_data.Reported_ID) is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Profissional que reportou não encontrado.")
+    if db.get(Professional, bug_data.Responsible_ID) is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Profissional responsável não encontrado.")
+
     new_bug = DocumentationBug(
         Date_Reported=bug_data.Date_Reported,
         Place_game=bug_data.Place_game,
@@ -26,4 +33,4 @@ def create_bug(bug_data: BugCreate, db: Session = Depends(get_db)):
 
 @bug_router.get("/", response_model=list[BugResponse])
 def list_bugs(db: Session = Depends(get_db)):
-    return db.query(DocumentationBug).all()
+    return db.query(DocumentationBug).order_by(DocumentationBug.Documentation_Bug_ID.desc()).all()

@@ -1,5 +1,4 @@
 (function () {
-  const REPO_URL = "#"; // link do repositório
   const $ = id => document.getElementById(id);
   document.documentElement.classList.add("js");
 
@@ -25,7 +24,6 @@
   st.setProperty("--obs", tile([26, 18, 44], 26, 3));
   st.setProperty("--black", tile([62, 58, 68], 26, 11));
   st.setProperty("--plank", tile([168, 121, 63], 30, 5));
-  $("repoLink").href = REPO_URL;
 
   /* Itens do Minecraft redesenhados em pixel art (16x16). Cada letra é uma cor da paleta. */
   const PAL = { k: "#17141c", w: "#fff", g: "#9a9a9a", G: "#555", K: "#2a2a2a", b: "#9a6a35", B: "#5a3a1a", d: "#2fcfbf", D: "#16897f", l: "#b8fff6", r: "#d9302a", R: "#7d1511", y: "#ffd33b", e: "#5da130", E: "#3f7a22", n: "#7b5433", N: "#5a3b20", c: "#f2e6c0", C: "#c8b88a", S: "#7ab8ff" };
