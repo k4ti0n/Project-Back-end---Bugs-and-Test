@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Boolean, Date, ForeignKey
+from sqlalchemy import Column, String, Integer, Boolean, Date, ForeignKey, text
 from Banco.database import Base
 
 
@@ -7,7 +7,7 @@ class Engine(Base):
 
     Engine_ID = Column("Engine_ID", Integer, primary_key=True, autoincrement=True)
     Name_Engine = Column("Name_Engine", String, nullable=False)
-    Function_Engine = Column("Function_Engine", String, nullable=False)
+    Function_Engine = Column("Function_Engine", String, nullable=False, server_default=text("''"))
 
     def __init__(self, Name_Engine, Function_Engine):
         self.Name_Engine = Name_Engine

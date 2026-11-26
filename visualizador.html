@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Consulte os engines, jogos, profissionais e bugs salvos no BugForge.">
+  <title>BugForge — Visualizar banco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/Interface/CSS/data-pages.css">
+</head>
+<body class="viewer-page" data-view="engines">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/">BugForge</a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a href="/">Apresentação</a>
+        <a href="/cadastro">Injetar dados</a>
+        <a href="/visualizador" aria-current="page">Visualizar banco</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-intro">
+        <p class="eyebrow">Painel de consulta</p>
+        <h1>Dados do banco</h1>
+        <p>Consulte os registros persistidos no SQLite. As tabelas são atualizadas pela API e podem ser recarregadas a qualquer momento.</p>
+        <a class="text-link" href="/cadastro">Ir para injeção de dados →</a>
+      </section>
+
+      <section class="summary-grid" aria-label="Quantidade de registros">
+        <article class="summary-card"><span>Engines</span><strong id="engineCount">—</strong></article>
+        <article class="summary-card"><span>Jogos</span><strong id="gameCount">—</strong></article>
+        <article class="summary-card"><span>Profissionais</span><strong id="professionalCount">—</strong></article>
+        <article class="summary-card"><span>Bugs</span><strong id="bugCount">—</strong></article>
+      </section>
+
+      <section class="data-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Registros</h2>
+            <p id="tableSummary">Selecione uma tabela para consultar.</p>
+          </div>
+          <button class="action-button secondary-button" id="refreshButton" type="button">Atualizar dados</button>
+        </div>
+        <p class="status-message" id="pageStatus" role="status" aria-live="polite">Carregando dados da API...</p>
+
+        <div class="tab-list" role="tablist" aria-label="Tabelas do banco">
+          <button class="table-tab" id="tab-engines" role="tab" aria-selected="true" aria-controls="tablePanel" data-table="engines">Engines</button>
+          <button class="table-tab" id="tab-games" role="tab" aria-selected="false" aria-controls="tablePanel" data-table="games">Jogos</button>
+          <button class="table-tab" id="tab-professionals" role="tab" aria-selected="false" aria-controls="tablePanel" data-table="professionals">Profissionais</button>
+          <button class="table-tab" id="tab-bugs" role="tab" aria-selected="false" aria-controls="tablePanel" data-table="bugs">Bugs</button>
+        </div>
+
+        <div class="table-scroll" id="tablePanel" role="tabpanel" aria-labelledby="tab-engines" tabindex="0">
+          <table>
+            <thead id="tableHead"></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <p class="last-updated" id="lastUpdated"></p>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      Consulta somente leitura. Para criar registros, use a página <a href="/cadastro">Injetar dados</a>.
+    </footer>
+  </div>
+  <script src="/Interface/JS/visualizador.js"></script>
+</body>
+</html>

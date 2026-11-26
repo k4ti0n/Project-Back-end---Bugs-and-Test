@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BugForge — Bugs e testes de jogos, sem nada perdido</title>
+<title>BugForge — Apresentação | Bugs de jogos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
@@ -21,14 +21,14 @@
 <header class="hero">
   <nav class="top" aria-label="Seções">
     <strong>BugForge</strong>
-    <span><a href="#problema">Problema</a><a href="#receita">Banco</a><a href="#circuito">Regra</a><a href="#tec">Tecnologias</a><a href="#equipe">Equipe</a></span>
+    <span><a href="#problema">Problema</a><a href="#receita">Banco</a><a href="#circuito">Regra</a><a href="#tec">Tecnologias</a><a href="#equipe">Equipe</a><a href="/cadastro">Injetar dados</a><a href="/visualizador">Visualizar banco</a></span>
   </nav>
   <div class="wrap hero-in">
     <div>
       <p class="kicker">Gerenciamento de bugs e testes para jogos</p>
       <h1><span>Bug</span><em>Forge</em></h1>
-      <p class="sub">Cada bug com dono, status e histórico. Nada se perde no chat e nada volta sem teste.</p>
-      <p class="cta"><a class="btn" href="#circuito">Acender a lâmpada</a> <a class="btn alt" href="#receita">Ver o banco</a></p>
+      <p class="sub">Registre bugs ligados ao jogo, a quem reportou e a quem vai corrigir. Consulte os dados persistidos em páginas próprias.</p>
+      <p class="cta"><a class="btn" href="/cadastro">Injetar dados</a> <a class="btn alt" href="/visualizador">Visualizar banco</a></p>
     </div>
     <div class="portal"><canvas id="portal" width="32" height="48" aria-label="Portal do Nether animado" role="img"></canvas></div>
   </div>
@@ -48,7 +48,7 @@
 
 <section class="sec s-obs" id="receita"><div class="wrap">
   <h2>A receita de um bug</h2>
-  <p class="lead">Na mesa de criação do BugForge, sete ingredientes viram um registro completo na tabela <code>documentation_bug</code>.</p>
+  <p class="lead">O reporte relaciona jogo, autor, responsável, data, local e passos para reprodução. A injeção e a consulta dos registros acontecem nas páginas próprias do sistema.</p>
   <div class="craft gui">
     <div class="grid3">
       <div class="cs"><i class="item" data-item="clock" role="img" aria-label="Relógio"></i>Date_Reported</div><div class="cs"><i class="item" data-item="compass" role="img" aria-label="Bússola"></i>Place_game</div><div class="cs"><i class="item" data-item="tnt" role="img" aria-label="TNT"></i>cause</div>
@@ -61,7 +61,9 @@
   <ul class="chips">
     <li><b>engines</b> os motores dos jogos</li>
     <li><b>projecting_documentation</b> os jogos e seu status</li>
+    <li><b>association_project_and_engine</b> engines vinculadas aos jogos</li>
     <li><b>functions</b> os papéis da equipe</li>
+    <li><b>function_professional</b> os papéis de cada profissional</li>
     <li><b>professionals</b> quem reporta e corrige</li>
     <li><b>documentation_bug</b> o registro de cada bug</li>
     <li><b>bug_history</b> cada mudança, com data e autor</li>
@@ -70,7 +72,7 @@
 
 <section class="sec s-black" id="circuito"><div class="wrap">
   <h2>Sem teste, sem luz</h2>
-  <p class="lead">A regra de negócio vira um circuito de redstone: a lâmpada “resolvido” só acende se o teste aprovado estiver ligado. Ligue a alavanca e depois tente resolver.</p>
+  <p class="lead">O circuito ilustra uma regra de QA: um bug só deveria ser marcado como resolvido após um teste aprovado. Esta demonstração é independente dos registros persistidos no banco.</p>
   <div class="circuit" id="circuit">
     <div class="inputs">
       <div class="in"><div class="ctl"><button class="lever" id="lever" type="button" aria-pressed="false" aria-label="Teste aprovado"></button><span>Teste aprovado</span></div><div class="wire" id="w1"></div></div>
@@ -97,6 +99,7 @@
     <p class="cmd-t">Bloco de comando · API</p>
     <p>&gt; POST /engines/ <i>cadastra engine</i></p><p>&gt; GET &nbsp;/engines/ <i>lista engines</i></p>
     <p>&gt; POST /professionals/ <i>cadastra profissional</i></p><p>&gt; GET &nbsp;/professionals/ <i>lista profissionais</i></p>
+    <p>&gt; POST /games/ <i>cadastra jogo e engines</i></p><p>&gt; GET &nbsp;/games/ <i>lista jogos</i></p>
     <p>&gt; POST /bugs/ <i>registra bug</i></p><p>&gt; GET &nbsp;/bugs/ <i>lista bugs</i></p>
   </div>
 </div></section>
@@ -125,7 +128,7 @@
 
 <footer>
   <p>BugForge · projeto acadêmico de Backend · Sistemas de Informação</p>
-  <p><a href="#" id="repoLink">Veja o código no repositório</a></p>
+  <p><a href="/cadastro">Injetar dados</a> · <a href="/visualizador">Consultar registros</a></p>
 </footer>
 
 <div class="xp" aria-hidden="true"><b id="lvl">0</b><div><i id="xpf"></i></div></div>

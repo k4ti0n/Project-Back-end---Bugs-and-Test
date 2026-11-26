@@ -1,25 +1,38 @@
 from datetime import date
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # --- Schemas para Engine ---
 class EngineCreate(BaseModel):
-    Name_Engine: str
-    Function_Engine: str
+    Name_Engine: str = Field(min_length=1)
+    Function_Engine: str = Field(min_length=1)
 
 
 class EngineResponse(BaseModel):
     Engine_ID: int
     Name_Engine: str
     Function_Engine: str
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+
+# --- Schemas para jogos ---
+class GameCreate(BaseModel):
+    Game_Name: str = Field(min_length=1)
+    Game_Status: str = Field(min_length=1)
+    Engine_IDs: list[int] = Field(default_factory=list)
+
+
+class GameResponse(BaseModel):
+    Game_ID: int
+    Game_Name: str
+    Game_Status: str
+    Engine_IDs: list[int]
 
 
 # --- Schemas para Professional ---
 class ProfessionalCreate(BaseModel):
-    Nome: str
+    Nome: str = Field(min_length=1)
     Active: Optional[bool] = True
 
 
@@ -28,19 +41,18 @@ class ProfessionalResponse(BaseModel):
     Nome: str
     Active: bool
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # --- Schemas para Documentation Bug ---
 class BugCreate(BaseModel):
     Date_Reported: date
-    Place_game: str
+    Place_game: str = Field(min_length=1)
     cause: Optional[str] = None
-    Step_Reproduction: str
-    Game_ID: int
-    Reported_ID: int
-    Responsible_ID: int
+    Step_Reproduction: str = Field(min_length=1)
+    Game_ID: int = Field(gt=0)
+    Reported_ID: int = Field(gt=0)
+    Responsible_ID: int = Field(gt=0)
 
 
 class BugResponse(BaseModel):
@@ -53,5 +65,4 @@ class BugResponse(BaseModel):
     Reported_ID: int
     Responsible_ID: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

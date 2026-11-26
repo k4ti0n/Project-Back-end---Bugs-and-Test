@@ -9,11 +9,19 @@ code{background:#0007;padding:0 6px}
 :focus-visible{outline:3px solid #fff;outline-offset:3px}
 .wrap{max-width:1000px;margin:auto}
 .lead{max-width:34em;margin:18px 0 34px;text-shadow:2px 2px #000}
-.sec{min-height:100svh;display:flex;align-items:center;padding:60px 20px 140px;border-top:6px solid #000;background-size:auto,64px}
-.sec>.wrap{width:100%}
+.sec{position:relative;isolation:isolate;min-height:100svh;display:flex;align-items:center;padding:60px 20px 140px;border-top:6px solid #000;background-size:auto,64px}
+.sec::before,.sec::after{content:"";position:absolute;left:0;right:0;height:clamp(90px,16vh,180px);pointer-events:none;z-index:0}
+.sec::before{top:0;background:linear-gradient(to bottom,var(--transition-top,#b06bff66),transparent)}
+.sec::after{bottom:0;background:linear-gradient(to top,var(--transition-bottom,#b06bff66),transparent)}
+.sec>.wrap{position:relative;z-index:1;width:100%}
 .s-nether{background:linear-gradient(#1a0707bb,#1a0707bb),var(--nether),#3a1212}
 .s-obs{background:linear-gradient(#0d0816cc,#0d0816cc),var(--obs),#1b1230}
 .s-black{background:linear-gradient(#0a0a0ecc,#0a0a0ecc),var(--black),#2a282e}
+#problema{--transition-top:#ff7a1a88;--transition-bottom:#b06bff80}
+#receita{--transition-top:#b06bff80;--transition-bottom:#ff7a1a70}
+#circuito{--transition-top:#b06bff80;--transition-bottom:#e0312b70}
+#tec{--transition-top:#e0312b70;--transition-bottom:#b06bff70}
+#equipe{--transition-top:#b06bff70;--transition-bottom:#b06bff70}
 
 /* Hero: portal do Nether */
 .hero{position:relative;min-height:100svh;padding:0 20px 70px;background:radial-gradient(ellipse at 78% 55%,#7b2cff66,#0000 60%),linear-gradient(#0d0816,#1a0a24 70%,#4a1a0a);display:flex;flex-direction:column}
